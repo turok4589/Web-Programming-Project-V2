@@ -3,16 +3,20 @@
           <Nav/>
          <div class="container">
               <router-view/>
-          </div>
+              <Footer/>
+        </div>
      </div>
 </template>
 
 <script>
 import Nav from "@/components/nav"
+import Footer from '@/components/footer';
 export default {
   components:{
-     Nav                      //auto puts Nav object in Nav with name Nav
+     Nav,                      //auto puts Nav object in Nav with name Nav
+     Footer
   }
+
 }
 </script>
 
