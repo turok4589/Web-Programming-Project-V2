@@ -26,7 +26,7 @@ export const exercises = [
             Miles: 2,
             Calories_Burned: 100,
         },
-        total_calories_burned: 0
+        total_calories_burned: 740
     },
     {
         message: 'Good Progress On Achieving Your Fitness Goals!',
@@ -113,6 +113,6 @@ export const exercises = [
             Miles: 2,
             Calories_Burned: 100,
         },
-        total_calories_burned: 0,
+        total_calories_burned: 740,
     },
 ];

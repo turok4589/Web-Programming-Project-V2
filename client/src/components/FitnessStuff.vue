@@ -44,6 +44,20 @@
                     </div>
                 </div>
          </div>
+         <div class = "column is-one-third">
+             <div class="field">
+                 <label class="label"> <strong>Calories Burnt</strong></label>
+                     <div class="control">
+                         {{fitnessstuff.BenchPress.Calories_Burned}}
+                    </div>
+             </div>
+             <div class="field" v-if="i==3">
+                  <label class="label"><br><br><strong>Total Calories Burnt</strong></label>
+                         <div class="control">
+                            {{fitnessstuff.total_calories_burned}}
+                        </div>
+             </div>      
+        </div>
    </div>
   </div>
   
