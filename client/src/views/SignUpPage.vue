@@ -23,26 +23,20 @@
 
 <div class="field">
   <label class="label"><strong>Username:</strong></label>
-  <div class="control has-icons-left has-icons-right">
+  <div class="control has-icons-left">
     <input class="input" type="text" placeholder="Enter Your Username" value="">
     <span class="icon is-small is-left">
       <i class="fas fa-user"></i>
-    </span>
-    <span class="icon is-small is-right">
-      <i class="fas fa-check"></i>
     </span>
   </div>
 </div>
 
 <div class="field">
   <label class="label"><strong>Email:</strong></label>
-  <div class="control has-icons-left has-icons-right">
+  <div class="control has-icons-left">
     <input class="input" type="email" placeholder="Enter Your Email" value="">
     <span class="icon is-small is-left">
       <i class="fas fa-envelope"></i>
-    </span>
-    <span class="icon is-small is-right">
-      <i class="fas fa-exclamation-triangle"></i>
     </span>
   </div>
 </div>

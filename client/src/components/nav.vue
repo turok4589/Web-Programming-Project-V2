@@ -27,17 +27,10 @@
 
         <div class="navbar-dropdown">
           <a class="navbar-item">
-            About
+            <router-link to="/about"  class="navbar-item" >About</router-link>
           </a>
           <a class="navbar-item">
-            Jobs
-          </a>
-          <a class="navbar-item">
-            Contact
-          </a>
-          <hr class="navbar-divider">
-          <a class="navbar-item">
-            Report an issue
+            <router-link to="/fitnesstracker"  class="navbar-item" >Fitness Tracker</router-link>
           </a>
         </div>
       </div>
