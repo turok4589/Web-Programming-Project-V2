@@ -26,10 +26,14 @@
         </span>
     </p>
     </div>
+    <label class="checkbox">
+       <input type="checkbox">
+           Remember me<br><br>
+    </label>
     <div class="field is-grouped buttons are-small">
     <p class="control">
-        <button class="button is-success">
-        Login
+       <button class="button is-success" @click.prevent="login">
+            Login
         </button>
     </p>
     <p class="control">
@@ -45,9 +49,20 @@
     </div>
 </form>
 </template>
-<script>
-export default {
 
+<script>
+import session from "@/models/session";
+
+export default {
+    methods: {
+        login(){
+            session.user = { //user is an object
+                name: 'Miguel A Vasquez',
+                handle: 'Newpaltz',
+        }
+        this.$router.push('FitnessTracker')
+    }
+}
 }
 </script>
 

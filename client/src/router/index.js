@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import session from '../models/session'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import SignUpPage from '../views/SignUpPage.vue'
-import FitnessTracker from '../views/FitnessTracker.vue'
 
 Vue.use(VueRouter)
 
@@ -11,7 +11,12 @@ const routes = [
   { path: '/', name: 'Home', component: Home},
   { path: '/login', name: 'Login', component: Login},
   { path: '/signuppage', name: 'SignUpPage', component: SignUpPage},
-  { path: '/fitnesstracker', name: 'FitnessTracker', component: FitnessTracker},
+  { 
+    path: '/fitnesstracker', 
+    name: 'FitnessTracker', 
+    component: () => import(/* webpackChunkName: "FitnessTracker" */ '../views/FitnessTracker.vue'),
+    beforeEnter: checkSessionUser,
+  },
   {
     path: '/about',
     name: 'About',
@@ -19,7 +24,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+  },
 ]
 
 const router = new VueRouter({
@@ -29,3 +34,11 @@ const router = new VueRouter({
 })
 
 export default router
+
+function checkSessionUser (to, from, next) {
+  if(session.user){
+    next();
+  }else{
+    next('Login');
+  }
+}

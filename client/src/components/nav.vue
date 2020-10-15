@@ -45,10 +45,7 @@
 
     <div class="navbar-end">
       <div class="navbar-item">
-        <div class="buttons">
-      <router-link to="/signuppage"  class="button"><strong>Sign Up</strong></router-link>
-      <router-link to="/login"  class="button"><strong>Log in</strong></router-link>
-        </div>
+         <LoginBadge />
       </div>
     </div>
   </div>
@@ -56,13 +53,18 @@
 </template>
 
 <script>
+import LoginBadge from "@/components/LoginBadge";
+
 export default {
    data: () => ({
        isActive: false
    }), //parantheses tell javascript that the squigglys are the return value
-   methods: ({
+   methods: {
 
-   })
+   },
+   components: {
+      LoginBadge
+   }
 }
 
 </script>
