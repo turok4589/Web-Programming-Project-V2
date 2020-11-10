@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS `Types` (
   `Name` VARCHAR(45) NOT NULL,
   `Type_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Types_Types1_idx` (`Type_id` ASC)
-  UNIQUE INDEX `Name_UNIQUE` (`Name` ASC)
+  INDEX `fk_Types_Types1_idx` (`Type_id` ASC) ,
+  UNIQUE INDEX `Name_UNIQUE` (`Name` ASC) ,
   CONSTRAINT `fk_Types_Types1`
     FOREIGN KEY (`Type_id`)
     REFERENCES `Types` (`id`)
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `Password` VARCHAR(45) NULL,
   `User_Type` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Users_Types1_idx` (`User_Type` ASC)
+  INDEX `fk_Users_Types1_idx` (`User_Type` ASC) ,
   CONSTRAINT `fk_Users_Types1`
     FOREIGN KEY (`User_Type`)
     REFERENCES `Types` (`id`)
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS `ContactMethods` (
   `CanSpam` BIT NOT NULL DEFAULT 0,
   `User_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_ContactsMethods_Users_idx` (`User_id` ASC)
-  INDEX `fk_ContactsMethods_Type_idx` (`Type` ASC)
+  INDEX `fk_ContactsMethods_Users_idx` (`User_id` ASC) ,
+  INDEX `fk_ContactsMethods_Type_idx` (`Type` ASC) ,
   CONSTRAINT `fk_ContactsMethods_Users`
     FOREIGN KEY (`User_id`)
     REFERENCES `Users` (`id`)
@@ -85,15 +85,15 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Exercises` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `created_at` DATETIME NOT NULL,
-  `update_at` TIMESTAMP GENERATED ALWAYS AS (CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP) VIRTUAL,
+  `update_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Type` VARCHAR(45) NOT NULL,
   `Time_Spent` INT NOT NULL,
   `Calories_Burned` INT NOT NULL,
   `Favorite_Exercise` INT NOT NULL,
   `Owner_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Exercises_Type_idx` (`Type` ASC)
-  INDEX `fk_Exercises_User_idx` (`Owner_id` ASC)
+  INDEX `fk_Exercises_Type_idx` (`Type` ASC) ,
+  INDEX `fk_Exercises_User_idx` (`Owner_id` ASC) ,
   CONSTRAINT `fk_Exercises_Type`
     FOREIGN KEY (`Type`)
     REFERENCES `Types` (`Name`)
@@ -108,9 +108,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Friends`
+-- Table `Friendlist`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Friends` (
+CREATE TABLE IF NOT EXISTS `Friendlist` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `created_at` DATETIME NOT NULL,
   `update_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -118,14 +118,14 @@ CREATE TABLE IF NOT EXISTS `Friends` (
   `Friends_id` INT NOT NULL,
   `Owner_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Friends_Users_idx` (`Friends_id` ASC)
-  INDEX `fk_Friends_Users_idx1` (`Owner_id` ASC)
+  INDEX `fk_Friends_Users_idx` (`Friends_id` ASC) ,
+  INDEX `fk_Friends_Users_idx1` (`Owner_id` ASC) ,
   CONSTRAINT `fk_Friends_Users`
     FOREIGN KEY (`Friends_id`)
     REFERENCES `Users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Friends_Users`
+  CONSTRAINT `fk_Friends_Users1`
     FOREIGN KEY (`Owner_id`)
     REFERENCES `Users` (`id`)
     ON DELETE NO ACTION
@@ -143,8 +143,8 @@ CREATE TABLE IF NOT EXISTS `Requests` (
   `user_id` INT NOT NULL,
   `friends_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Requests_Users_idx` (`user_id` ASC) 
-  INDEX `fk_Requests_Friends_idx` (`friends_id` ASC)
+  INDEX `fk_Requests_Users_idx` (`user_id` ASC) ,
+  INDEX `fk_Requests_Friends_idx` (`friends_id` ASC) ,
   CONSTRAINT `fk_Requests_Users`
     FOREIGN KEY (`user_id`)
     REFERENCES `Users` (`id`)
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `Requests` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Requests_Friends`
     FOREIGN KEY (`friends_id`)
-    REFERENCES `Friends` (`id`)
+    REFERENCES `Friendlist` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -169,8 +169,8 @@ CREATE TABLE IF NOT EXISTS `Reactions` (
   `Owner_id` INT NOT NULL,
   `Like_Exercise` BIT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  INDEX `fk_Reactions_Exercises_idx` (`Exercise_id` ASC)
-  INDEX `fk_Reactions_Users_idx` (`Owner_id` ASC)
+  INDEX `fk_Reactions_Exercises_idx` (`Exercise_id` ASC) ,
+  INDEX `fk_Reactions_Users_idx` (`Owner_id` ASC) ,
   CONSTRAINT `fk_Reactions_Exercises`
     FOREIGN KEY (`Exercise_id`)
     REFERENCES `Exercises` (`id`)
