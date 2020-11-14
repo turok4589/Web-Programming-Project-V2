@@ -91,6 +91,10 @@ CREATE TABLE IF NOT EXISTS `Exercises` (
   `Calories_Burned` INT NOT NULL,
   `Favorite_Exercise` INT NOT NULL,
   `Owner_id` INT NOT NULL,
+  `Distance` FLOAT NULL,
+  `Sets` INT NULL,
+  `Reps_Per_Set` INT NULL,
+  `Lifting_Weight` FLOAT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Exercises_Type_idx` (`Type` ASC) ,
   INDEX `fk_Exercises_User_idx` (`Owner_id` ASC) ,
@@ -114,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `Friendlist` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `created_at` DATETIME NOT NULL,
   `update_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Friends_url_page` VARCHAR(2048) NOT NULL,
+  `Friends_url_page` VARCHAR(2048) NULL,
   `Friends_id` INT NOT NULL,
   `Owner_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -177,6 +181,32 @@ CREATE TABLE IF NOT EXISTS `Reactions` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Reactions_Users`
+    FOREIGN KEY (`Owner_id`)
+    REFERENCES `Users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Comments`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Comments` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `created_at` DATETIME NOT NULL,
+  `update_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Text` VARCHAR(4000) NULL,
+  `Exercise_id` INT NOT NULL,
+  `Owner_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_comments_exercises_idx` (`Exercise_id` ASC) ,
+  INDEX `fk_comments_users_idx` (`Owner_id` ASC) ,
+  CONSTRAINT `fk_comments_exercises`
+    FOREIGN KEY (`Exercise_id`)
+    REFERENCES `Exercises` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_comments_users`
     FOREIGN KEY (`Owner_id`)
     REFERENCES `Users` (`id`)
     ON DELETE NO ACTION
