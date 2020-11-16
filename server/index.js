@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config();
 
+console.log('At least some code is running');
+
 const users = require('./controllers/users');
 
 const exercises = require('./controllers/exercises');
