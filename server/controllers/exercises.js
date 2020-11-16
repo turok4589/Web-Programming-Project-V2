@@ -20,9 +20,8 @@ router
         exercises.getTypes().then(x=> res.send( x ) )
         .catch(next);
     })
-    .post('/:id', (req, res, next) => {
+    .post('/addexercise/:id', (req, res, next) => {
         exercises.add(
-            req.body.Type,
             req.body.Time_Spent,  
             //calories burned should not be calculated yet
             req.body.Calories_Burned,
@@ -36,9 +35,8 @@ router
             res.send( newExercise );
         }).catch(next)
     })
-    .put('/:id', (req, res, next) => {
+    .put('/updateexercise/:id', (req, res, next) => {
         exercises.update( req.params.id,
-            req.body.Type,
             req.body.Time_Spent,  
             //calories burned should be calculated here but don't know how to yet
             req.body.Calories_Burned,

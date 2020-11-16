@@ -80,32 +80,46 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `Exercise_Types`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Exercise_Types` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `created_at` DATETIME NOT NULL,
+  `update_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Exercise_Types_Name` VARCHAR(45) NOT NULL,
+  `Exercise_Types_Type` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `Exercise_Types_Name_UNIQUE` (`Exercise_Types_Name` ASC) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `Exercises`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Exercises` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `created_at` DATETIME NOT NULL,
   `update_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Type` VARCHAR(45) NOT NULL,
   `Time_Spent` INT NOT NULL,
   `Calories_Burned` INT NOT NULL,
   `Favorite_Exercise` INT NOT NULL,
+  `Exercise_Type` VARCHAR(45) NOT NULL,
   `Owner_id` INT NOT NULL,
   `Distance` FLOAT NULL,
-  `Sets` INT NULL,
+  `Exercise_Sets` INT NULL,
   `Reps_Per_Set` INT NULL,
   `Lifting_Weight` FLOAT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Exercises_Type_idx` (`Type` ASC) ,
-  INDEX `fk_Exercises_User_idx` (`Owner_id` ASC) ,
-  CONSTRAINT `fk_Exercises_Type`
-    FOREIGN KEY (`Type`)
-    REFERENCES `Types` (`Name`)
+  INDEX `fk_Exercises_Type_idx` (`Owner_id` ASC) ,
+  INDEX `fk_Exercises_Exercises_Types1_idx` (`Exercise_Type` ASC) ,
+  CONSTRAINT `fk_Exercises_Exercises_Types`
+    FOREIGN KEY (`Owner_id`)
+    REFERENCES `Exercise_Types` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Exercises_User`
-    FOREIGN KEY (`Owner_id`)
-    REFERENCES `Users` (`id`)
+  CONSTRAINT `fk_Exercises_Exercises_Types1`
+    FOREIGN KEY (`Exercise_Type`)
+    REFERENCES `Exercise_Types` (`Exercise_Types_Name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

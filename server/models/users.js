@@ -18,8 +18,17 @@ async function getUserFriends(id)
 {
     const rows = await mysql.query(`SELECT * FROM Friendlist WHERE Owner_id=?` , [id]);
     if(!rows.length) throw {status: 404, message: "Sorry, this user has no friends added" } //rows is an array
-      
     return rows
+}
+
+async function getOwnerUserFriendId(Owner_id)
+{
+    return await mysql.query(`SELECT id, FROM Users WHERE id = ?`, [Owner_id])
+}
+
+async function getFriendUserId(Friend_id)
+{
+    return await mysql.query(`SELECT id, FROM Users WHERE id = ?`, [Friend_id])
 }
 
 async function get(id){
@@ -95,4 +104,4 @@ async function RemoveFriend(Owner_id, Friends_id)
 
 const search = async q => await mysql.query(`SELECT id, UserName, FirstName, LastName FROM Users WHERE LastName LIKE ? OR FirstName LIKE ?; `, [`%${q}%`, `%${q}%`]);
 
-module.exports = { getAll, get, add, update, remove, getTypes, register, login, search, Types, Add_A_New_Friend, RemoveFriend, getUserFriends}
+module.exports = { getAll, get, add, update, remove, getTypes, register, login, search, Types, Add_A_New_Friend, RemoveFriend, getUserFriends, getOwnerUserFriendId, getFriendUserId}

@@ -13,8 +13,8 @@ console.log(process.env.BEST_CLASS);
 
 //  Middleware
 app.use(express.json());
-//app.use(express.static( __dirname + '/../docs/'))
-
+app.use(express.static( __dirname + '/../docs/')) //creates a middleware function that will serve files straight off computer and tells computer where to look.
+//it was looking for a file in the wrong folder. The dirname is the directory name
 //  Authentication
 app.use(function(req, res, next) {
   const arr = (req.headers.authorization || "").split(" ");
@@ -32,14 +32,12 @@ app.use('/users', users);
 
 app.use('/exercises', exercises);
 
-
-/*
 app.get('*', (req, res, next) => {
     const filename = path.join(__dirname, '/../docs/index.html');
     console.log(filename);
     res.sendFile( filename );
 })
-*/
+
 app.use( (err, req, res, next) =>{
     console.log(err);
     res.status(err.status || 500).send( { message: err.message } )
