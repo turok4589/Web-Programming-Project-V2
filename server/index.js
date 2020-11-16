@@ -25,7 +25,7 @@ app.use(function(req, res, next) {
 });
 //  API
 app.get('/', (req, res, next) => {
-  res.send('Hello Hudson Valley! You requested ' + req.url)
+  res.send('Hello Hudson Valley!! You requested ' + req.url)
 })
 
 app.use('/users', users);
