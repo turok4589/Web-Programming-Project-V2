@@ -5,7 +5,7 @@ require('dotenv').config();
 console.log('At least some code is running');
 
 const users = require('./controllers/users');
-const exercises = require('./controllers/exercises');
+const exercises = require('./controllers/Exercises');
 const comments = require('./controllers/comments');
 const exercisetypes = require('./controllers/exercisetypes');
 
@@ -34,8 +34,8 @@ app.get('/', (req, res, next) => {
 
 app.use('/users', users);
 app.use('/comments', comments);
-app.use('/exercises', exercises);
-app.use('/exercisestypes', exercisetypes);
+app.use('/Exercises', exercises);
+app.use('/exercisetypes', exercisetypes);
 
 app.get('*', (req, res, next) => {
     const filename = path.join(__dirname, '/../docs/index.html');
