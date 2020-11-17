@@ -8,7 +8,7 @@ async function getAll(){
     return await mysql.query(`SELECT * FROM Comments`);
 }
 
-async function get(id){
+async function getcomment(id){
     const sql = `SELECT 
         *
     FROM Comments WHERE id=?`;
@@ -48,4 +48,4 @@ async function remove(id){
 
 const search = async q => await mysql.query(`SELECT id, Text, Exercise_id FROM Comments WHERE Text LIKE ? ; `, [`%${q}%`]);
 
-module.exports = { getAll, getcommentidforexercise,getcommentidforowner, add, update, remove, search}
+module.exports = { getAll, getcomment, getcommentidforexercise,getcommentidforowner, add, update, remove, search}

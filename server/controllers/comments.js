@@ -11,7 +11,7 @@ router
     .get('/:id', (req, res, next) => {
         const id = +req.params.id;
         if(!id) return next();
-        comments.get(id).then(x=> res.send( x ) )
+        comments.getcomment(id).then(x=> res.send( x ) )
         .catch(next);
     })
     .get('/search', (req, res, next) => {
