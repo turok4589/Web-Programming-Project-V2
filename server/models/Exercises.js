@@ -3,7 +3,7 @@
 */
 const getexercisetype = require('./exercisetypes');
 const mysql = require('./mysql');
-const Types = {RUNNING: 'Running', BENCH_PRESS: 'Bench Press', WALKING: 'Walking', BICYCLE_RIDING: 'Bicycle Riding', SWIMMING: 'Swimming'}; //not going to be used anymore. I think
+//const Types = {RUNNING: 'Running', BENCH_PRESS: 'Bench Press', WALKING: 'Walking', BICYCLE_RIDING: 'Bicycle Riding', SWIMMING: 'Swimming'}; //not going to be used anymore. I think
 
 async function getAll(){
     console.log("Called Get All")
@@ -21,19 +21,21 @@ async function getExerciseUserId(exercise_id)
     return await mysql.query(`SELECT id, FROM Users WHERE id = ?`, [exercise_id])
 }
 
-async function add(Type, Time_Spent, Calories_Burned = 0, Favorite_Exercise, Owner_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight){
+async function add(Time_Spent, Calories_Burned = 0, Favorite_Exercise, Exercise_Type_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight, User_id){
     //if(Type != Types.RUNNING || Type != Types.BENCH_PRESS || Type != Types.SWIMMING || Type != Types.WALKING || Type != Types.BICYCLE_RIDING)
-    const exercisetype = getexercisetype.getexercise(Owner_id);
-    const sql = `INSERT INTO Exercises (created_at, Time_Spent, Calories_Burned, Favorite_Exercise, Exercise_Type, Owner_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight) VALUES ? ;`;
-    const params = [[new Date(), Type, Time_Spent, Calories_Burned, Favorite_Exercise, exercisetype, Owner_id, , Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight]];
-    return await mysql.query(sql, [params]);
+    const exercisetype = getexercisetype.getexercise(Exercise_Type_id);
+    const sql = `INSERT INTO Exercises (created_at, Time_Spent, Calories_Burned, Favorite_Exercise, Exercise_Type, Exercise_Type_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight, User_id) VALUES ? ;`;
+    const params = [[new Date(), Time_Spent, Calories_Burned = 0, Favorite_Exercise, exercisetype, Exercise_Type_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight, User_id]];
+    const res = await mysql.query(sql, [params]);
+    return get(res.insertId);
 }
 
 async function update(id, Time_Spent, Calories_Burned = 0, Favorite_Exercise, Owner_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight){
-    const exercisetype = getexercise(Owner_id);
+    const exercisetype = getexercisetype.getexercise(Exercise_Type_id);
     const sql = `UPDATE Exercises SET ? WHERE id = ?;`;
-    const params = { Type, Time_Spent, Calories_Burned, Favorite_Exercise, exercisetype, Owner_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight };
-    return await mysql.query(sql, [params, id]);
+    const params = {Time_Spent, Calories_Burned, Favorite_Exercise, exercisetype, Owner_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight };
+    const res = await mysql.query(sql, [params]);
+    return get(res.insertId);
 }
 //const params = { Type, Value, IsPrimary, CanSpam, User_id };
 // return await mysql.query(sql, [params, id]);

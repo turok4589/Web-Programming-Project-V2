@@ -104,22 +104,29 @@ CREATE TABLE IF NOT EXISTS `Exercises` (
   `Calories_Burned` INT NOT NULL,
   `Favorite_Exercise` INT NOT NULL,
   `Exercise_Type` VARCHAR(45) NOT NULL,
-  `Owner_id` INT NOT NULL,
+  `Exercise_Type_id` INT NOT NULL,
   `Distance` FLOAT NULL,
   `Exercise_Sets` INT NULL,
   `Reps_Per_Set` INT NULL,
   `Lifting_Weight` FLOAT NULL,
+  `User_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Exercises_Type_idx` (`Owner_id` ASC) ,
+  INDEX `fk_Exercises_Type_idx` (`Exercise_Type_id` ASC) ,
   INDEX `fk_Exercises_Exercises_Types1_idx` (`Exercise_Type` ASC) ,
+  INDEX `fk_Exercises_Users_idx` (`User_id` ASC) VISIBLE,
   CONSTRAINT `fk_Exercises_Exercises_Types`
-    FOREIGN KEY (`Owner_id`)
+    FOREIGN KEY (`Exercise_Type_id`)
     REFERENCES `Exercise_Types` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Exercises_Exercises_Types1`
     FOREIGN KEY (`Exercise_Type`)
     REFERENCES `Exercise_Types` (`Exercise_Types_Name`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Exercises_Users`
+    FOREIGN KEY (`User_id`)
+    REFERENCES `Users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

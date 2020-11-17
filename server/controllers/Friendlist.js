@@ -10,11 +10,11 @@ router
         users.getUserFriends(id).then(x=> res.send( x ) )
         .catch(next);
     })
-    post('/add_Friend/:id, :id', (req, res) => {
+    post('/add_Friend', (req, res) => {
         users.Add_A_New_Friend(
             req.body.Friends_URL_Page,
-            req.params.Owner_id, 
-            req.params.Friends_id
+            req.body.Owner_id, 
+            req.body.Friends_id
             ).then(newUser => {
             res.send( newUser );
         }).catch(next)
@@ -22,8 +22,8 @@ router
     });
     post('/delete_Friend', (req, res) => {
         users.RemoveFriend(
-            req.params.Owner_id, 
-            req.params.Friends_id).then(msg => {
+            req.body.Owner_id, 
+            req.body.Friends_id).then(msg => {
             res.send( msg );
         }).catch(next)
     });

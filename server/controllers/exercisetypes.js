@@ -5,7 +5,7 @@ const router = express.Router();
 
 router
     .get('/', (req, res, next) => {
-        exercisetypes.getAll().then(x=> res.send( x.map(exercisetypes=>({ ...exercisetypes}) ) ) )
+        exercisetypes.getAll().then(x=> res.send( x) )
         .catch(next);
     })
     .get('/:id', (req, res, next) => {

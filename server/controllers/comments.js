@@ -5,7 +5,7 @@ const router = express.Router();
 
 router
     .get('/', (req, res, next) => {
-        comments.getAll().then(x=> res.send( x.map(user=> ({ ...comments}) ) ) )
+        comments.getAll().then(x=> res.send( x) )
         .catch(next);
     })
     .get('/:id', (req, res, next) => {
@@ -14,20 +14,24 @@ router
         comments.get(id).then(x=> res.send( x ) )
         .catch(next);
     })
-    .post('/addusercomment/:id/:id', (req, res, next) => {
+    .get('/search', (req, res, next) => {
+        comments.search(req.query.q.then(x=> res.send(x)))
+        .catch(next);
+    })
+    .post('/addusercomment', (req, res, next) => {
         comments.add( 
             req.body.Text,
-            req.params.Exercise_id, 
-            req.params.Owner_id
+            req.body.Exercise_id, 
+            req.body.Owner_id
         ).then(newComment => {
             res.send( newComment );
         }).catch(next)
     })
-    .put('/updateusercomment/:id/:id/:id', (req, res, next) => {
+    .put('/updateusercomment/:id', (req, res, next) => {
         comments.update( req.params.id,
             req.body.Text,
-            req.params.Exercise_id, 
-            req.params.Owner_id
+            req.body.Exercise_id, 
+            req.body.Owner_id
         ).then(newComment => {
             res.send( newComment );
         }).catch(next)
