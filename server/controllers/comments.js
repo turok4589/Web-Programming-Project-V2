@@ -1,5 +1,5 @@
 const express = require('express');
-const Users = require('../models/comments');
+const comments = require('../models/comments');
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router
         comments.get(id).then(x=> res.send( x ) )
         .catch(next);
     })
-    .post('/addcomment/:id, :id', (req, res, next) => {
+    .post('/addusercomment/:id/:id', (req, res, next) => {
         comments.add( 
             req.body.Text,
             req.params.Exercise_id, 
@@ -23,7 +23,7 @@ router
             res.send( newComment );
         }).catch(next)
     })
-    .put('/updatecomment/:id, :id, :id', (req, res, next) => {
+    .put('/updateusercomment/:id/:id/:id', (req, res, next) => {
         comments.update( req.params.id,
             req.body.Text,
             req.params.Exercise_id, 
@@ -32,7 +32,7 @@ router
             res.send( newComment );
         }).catch(next)
     })
-    .delete('/deleteusers/:id', (req, res, next) => {
+    .delete('/deleteusercommments/:id', (req, res, next) => {
         comments.remove(req.params.id).then(msg => {
             res.send( msg );
         }).catch(next)
