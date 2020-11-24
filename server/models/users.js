@@ -14,6 +14,13 @@ async function getAll(){
     return await mysql.query(`SELECT * FROM Users`);
 }
 
+async function getUserID(UserName, FirstName, LastName, DOB, Password){
+    console.log("Getting User ID For Current Session")
+    const rows = await mysql.query('Select id, FROM Users Where UserName = ? AND FirstName = ? And LastName = ? DOB = ? AND Password = ? ', [UserName, FirstName, LastName, DOB, Password])
+    if(!rows.length) throw {status: 404, message: "Sorry, this is no such user" }
+    return rows
+}
+
 async function getUserFriends(id)
 {
     const rows = await mysql.query(`SELECT * FROM Friendlist WHERE Owner_id=?` , [id]);
@@ -42,17 +49,24 @@ async function get(id){
 }
 
 async function login(email, password){
+    console.log(email)
+    console.log(password)
     const sql = `SELECT *
     FROM Users U Join ContactMethods CM ON U.id=CM.User_id WHERE CM.Value=?`;
     const rows = await mysql.query(sql, [email]);
     if(!rows.length) throw { status: 404, message: "Sorry, that email address is not registered with us." };
-    console.log({password, Password: rows[0].Password});
-
-    const hash = await bcrypt.hash(password, rows[0].Password)
+    console.log(rows[0].Firstname);
+    console.log(Types.ADMIN);
+    console.log(rows[0].User_Type)
+    if(rows[0].User_Type == 5)
+      {
+          return rows;
+      }
+    //const hash = await bcrypt.hash(password, rows[0].Password)
     const res = await bcrypt.compare(password, rows[0].Password)
-    console.log ({res, hash})
+    //console.log ({res, hash})
     if(! res ) throw { status: 403, message: "Sorry, wrong password." };
-    return get(rows[0].User_id);
+    return rows;
 }
 
 async function getTypes(){
@@ -77,6 +91,9 @@ async function remove(id){
 }
 
 async function register(UserName, FirstName, LastName, DOB, Password, User_Type, email) {
+    console.log(email)
+    console.log(Password)
+    console.log(DOB)
     if(await cm.exists(email)){
         throw { status: 409, message: 'You already signed up with this email. Please go to Log in.' }
     }
@@ -88,6 +105,9 @@ async function register(UserName, FirstName, LastName, DOB, Password, User_Type,
 }
 async function Add_A_New_Friend(Friends_URL_Page, Owner_id, Friend_id)
 {
+    if(Owner_id == Friend_id){
+        throw { status: 409, message: 'You cannot add yourself' }
+    }
     const sql = `INSERT INTO Friendlist(created_at, Friends_URL_Page, Owner_id, Friend_id) VALUES ? ;`;
     const params = [[new Date(), Friends_URL_Page, Owner_id, Friend_id]];
     return await mysql.query(sql, [params]);
@@ -104,4 +124,4 @@ async function RemoveFriend(Owner_id, Friends_id)
 
 const search = async q => await mysql.query(`SELECT id, UserName, FirstName, LastName FROM Users WHERE LastName LIKE ? OR FirstName LIKE ?; `, [`%${q}%`, `%${q}%`]);
 
-module.exports = { getAll, get, add, update, remove, getTypes, register, login, search, Types, Add_A_New_Friend, RemoveFriend, getUserFriends, getOwnerUserFriendId, getFriendUserId}
+module.exports = { getAll, get, add, update, remove, getTypes, register, login, search, Types, Add_A_New_Friend, RemoveFriend, getUserFriends, getOwnerUserFriendId, getFriendUserId, getUserID}

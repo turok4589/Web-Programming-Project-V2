@@ -18,7 +18,7 @@ router
         comments.search(req.query.q.then(x=> res.send(x)))
         .catch(next);
     })
-    .post('/addusercomment', (req, res, next) => {
+    .post('/', (req, res, next) => {
         comments.add( 
             req.body.Text,
             req.body.Exercise_id, 
@@ -27,7 +27,7 @@ router
             res.send( newComment );
         }).catch(next)
     })
-    .put('/updateusercomment/:id', (req, res, next) => {
+    .put('/:id', (req, res, next) => {
         comments.update( req.params.id,
             req.body.Text,
             req.body.Exercise_id, 
@@ -36,7 +36,7 @@ router
             res.send( newComment );
         }).catch(next)
     })
-    .delete('/deleteusercommments/:id', (req, res, next) => {
+    .delete('/:id', (req, res, next) => {
         comments.remove(req.params.id).then(msg => {
             res.send( msg );
         }).catch(next)

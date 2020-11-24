@@ -6,16 +6,20 @@ const express = require('express');
 const users = require('../models/users');
 
 const router = express.Router();
-
 router
     .get('/', (req, res, next) => {
-        users.getAll().then(x=> res.send( x.map(user=> ({ ...user, Password: undefined}) ) ) )
+        users.getAll().then(x=> res.send( x) )
+        //users.getAll().then(x=> res.send( x.map(user=> ({ ...user, Password: undefined}) ) ) )
         .catch(next);
     })
     .get('/:id', (req, res, next) => {
         const id = +req.params.id;
         if(!id) return next();
         users.get(id).then(x=> res.send( x ) )
+        .catch(next);
+    })
+    .get('/getUserid', (req, res, next) => {
+        users.getUserID(req.body.UserName, req.body.FirstName, req.body.LastName, req.body.DOB, req.body.password).then(x=> res.send( x ) )
         .catch(next);
     })
     .get('/types', (req, res, next) => {

@@ -5,7 +5,9 @@ const mysql = require('./mysql');
 
 async function getAll(){
     console.log("Called Get All")
-    return await mysql.query(`SELECT * FROM Comments`);
+    //return await mysql.query(`SELECT * FROM Comments`);
+    const sql = `SELECT P.*, FirstName, LastName FROM Comments P Join Users U ON P.Owner_id = U.id`
+    return await mysql.query(sql);
 }
 
 async function getcomment(id){

@@ -4,10 +4,8 @@
         Fitness Goals Tracker!
     </h1> 
     <div class = "container">
-        <FitnessStuff v-for=" (x, i) in exercises " 
-                      :key="i"
-                      :i="i"
-                      :fitnessstuff="x" /> 
+        <FitnessStuff/>
+        <router-view/>
     </div>
 </div>
    
@@ -16,18 +14,21 @@
 <script>
 import session from "@/models/session";
 import FitnessStuff from "@/components/FitnessStuff";
-import { exercises } from "@/models/exercise";
+import { getExercises } from "@/models/exercise";
 
 export default {
     data()
     {
         return {
-            exercises
+            exercises: []
         }
     },
-components: {
-     FitnessStuff
-},
+    async created(){
+        this.exercises = await getExercises();
+    },
+    components: {
+        FitnessStuff
+    },
 }
 </script>
 

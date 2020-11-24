@@ -1,118 +1,31 @@
-export const exercises = [
-    {
-        message: 'Good Progress On Achieving Your Fitness Goals!',
-        owner: {
-            Name: 'Miguel Vasquez',
-            handle: 'newpaltz'
-        },
-         BenchPress:
-        {
-            Exercise_Name: 'Bench Press',
-            Number_Of_Reps: 10,
-            Number_Of_Sets: 3,
-            Weights: 135,
-            Calories_Burned: 185
+/* B"H
 
-        },
-        Running:
-        {
-            Exercise_Name: 'Running',
-            Miles: 2,
-            Calories_Burned: 150,
-        },
-         Walking:
-        {
-            Exercise_Name: 'Walking',
-            Miles: 2,
-            Calories_Burned: 100,
-        },
-        total_calories_burned: 740
-    },
-    {
-        message: 'Good Progress On Achieving Your Fitness Goals!',
-        owner: {
-            Name: 'Miguel Vasquez',
-            handle: 'newpaltz'
-        },
-         BenchPress:
-        {
-            Exercise_Name: 'Bench Press',
-            Number_Of_Reps: 10,
-            Number_Of_Sets: 3,
-            Weights: 135,
-            Calories_Burned: 185
+*/
+import { myFetch } from "./my-fetch";
+import session from "./session"
 
-        },
-        Running:
-        {
-            Exercise_Name: 'Running',
-            Miles: 2,
-            Calories_Burned: 150,
-        },
-         Walking:
-        {
-            Exercise_Name: 'Walking',
-            Miles: 2,
-            Calories_Burned: 100,
-        },
-        total_calories_burned: 0
-    },
-    {
-        message: 'Good Progress On Achieving Your Fitness Goals!',
-        owner: {
-            Name: 'Miguel Vasquez',
-            handle: 'newpaltz'
-        },
-         BenchPress:
-        {
-            Exercise_Name: 'Bench Press',
-            Number_Of_Reps: 10,
-            Number_Of_Sets: 3,
-            Weights: 135,
-            Calories_Burned: 185
+export const getExercises = () => myFetch('Exercises')
 
-        },
-        Running:
-        {
-            Exercise_Name: 'Running',
-            Miles: 2,
-            Calories_Burned: 150,
-        },
-         Walking:
-        {
-            Exercise_Name: 'Walking',
-            Miles: 2,
-            Calories_Burned: 100,
-        },
-        total_calories_burned: 0
-    },
-    {
-        message: 'Good Progress On Achieving Your Fitness Goals!',
-        owner: {
-            Name: 'Miguel Vasquez',
-            handle: 'newpaltz'
-        },
-         BenchPress:
-        {
-            Exercise_Name: 'Bench Press',
-            Number_Of_Reps: 10,
-            Number_Of_Sets: 3,
-            Weights: 135,
-            Calories_Burned: 185
+export function getListForUser(user_id) {
+    return myFetch('Exercises/getUserTable', {User_id: user_id});
+}
 
-        },
-        Running:
-        {
-            Exercise_Name: 'Running',
-            Miles: 2,
-            Calories_Burned: 150,
-        },
-         Walking:
-        {
-            Exercise_Name: 'Walking',
-            Miles: 2,
-            Calories_Burned: 100,
-        },
-        total_calories_burned: 740,
-    },
-];
+export function addexercise(time_Spent, calories_Burned, favorite_Exercise, exercise_Type_id, distance, exercise_Sets, reps_Per_Set, lifting_Weight, user_id){
+    return myFetch('Exercises', {Time_Spent: time_Spent, Calories_Burned: calories_Burned, Favorite_Exercise: favorite_Exercise, Exercise_Type__id: exercise_Type_id, Distance: distance, Exercise_Sets: exercise_Sets, Reps_Per_Set: reps_Per_Set, Lifting_Weight: lifting_Weight, User_id: user_id })
+}
+
+export function comment(post_id, text){
+    return myFetch('comments', { Post_id: post_id, Owner_id: 1, Text: text })
+}
+
+export function getexercisetypes() {
+    return myFetch('exercisetypes');
+}
+
+export function updatexercise(id, time_Spent, calories_Burned, favorite_Exercise, exercise_Type_id, distance, exercise_Sets, reps_Per_Sets, reps_Per_Set, lifting_Weight, user_id){
+    return myFetch('Exercises/updatexercise', {id: id, Time_Spent: time_Spent, Calories_Burned: calories_Burned, Favorite_Exercise: favorite_Exercise, Exercise_Type__id: exercise_Type_id, Distance: distance, Exercise_Sets: exercise_Sets, Reps_Per_Set: reps_Per_Set, Lifting_Weight: lifting_Weight, User_id: user_id });
+}
+
+export function deleteexercise(id){
+    return myFetch('Exercises/delete', {id: id});
+}

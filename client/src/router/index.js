@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import session from '../models/session'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import Users from '../views/Users.vue'
 import SignUpPage from '../views/SignUpPage.vue'
 
 Vue.use(VueRouter)
@@ -10,6 +11,7 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/', name: 'Home', component: Home},
   { path: '/login', name: 'Login', component: Login},
+  { path: '/users', name: 'Users', component: Users },
   { path: '/signuppage', name: 'SignUpPage', component: SignUpPage},
   { 
     path: '/fitnesstracker', 
