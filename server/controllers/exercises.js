@@ -60,7 +60,7 @@ router
             res.send( newExercise );
         }).catch(next)
     })
-    .put('/updatexercise/:id', (req, res, next) => {
+    .put('/updatexerciseforuser/:id', (req, res, next) => {
         exercises.update( req.params.id,
             req.body.Time_Spent,  
             //calories burned should be calculated here but don't know how to yet
@@ -117,7 +117,7 @@ router
         
     })
 
-    .delete('/delete/:id', (req, res, next) => {
+    .delete('/deleteforuser/:id', (req, res, next) => {
         exercises.remove(req.params.id).then(msg => {
             res.send( msg );
         }).catch(next)

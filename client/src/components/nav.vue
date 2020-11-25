@@ -41,19 +41,22 @@
             <router-link to="/users"  class="navbar-item" >Users</router-link>
           </div>
         </div>
-
+    </div>
     <div class="navbar-end">
       <div class="navbar-item">
          <LoginBadge />
       </div>
+      <div class = "navbar-item">
+         <Signout />
+      </div>
     </div>
-  </div>
   </div>
 </nav>
 </template>
 
 <script>
 import LoginBadge from "@/components/LoginBadge";
+import Signout from "@/components/signout";
 
 export default {
    data: () => ({
@@ -63,7 +66,8 @@ export default {
 
    },
    components: {
-      LoginBadge
+      LoginBadge,
+      Signout
    }
 }
 

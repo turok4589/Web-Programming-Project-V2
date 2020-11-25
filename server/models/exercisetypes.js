@@ -7,7 +7,8 @@ async function getAll(){
 
 async function getexercise(exercise_id)
 {
-    return await mysql.query(`SELECT Exercise_Types_Name, FROM Exercise_Types WHERE id = ?`, [exercise_id])
+    const rows = await mysql.query(`SELECT * FROM Exercise_Types WHERE id = ?`, [exercise_id])
+    return rows[0].Exercise_Types_Name
 }
 
 module.exports = { getexercise, getAll }

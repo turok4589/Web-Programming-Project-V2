@@ -37,19 +37,19 @@ async function add(Time_Spent, Calories_Burned, Favorite_Exercise, Exercise_Type
     return get(res.insertId);
 }
 
-async function update(id, Time_Spent, Calories_Burned, Favorite_Exercise, Owner_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight, BodyWeight){
+async function update(id, Time_Spent, Calories_Burned, Favorite_Exercise, Exercise_Type_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight, BodyWeight, Owner_id){
     const exercisetype = getexercisetype.getexercise(Exercise_Type_id);
-    const sql = `UPDATE Exercises SET ? WHERE id = ?;`;
-    const params = {Time_Spent, Calories_Burned, Favorite_Exercise, exercisetype, Owner_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight, BodyWeight };
-    const res = await mysql.query(sql, [params, id]);
+    const sql = `UPDATE Exercises SET ? WHERE id = ? AND User_id = ? ;`;
+    const params = {Time_Spent, Calories_Burned, Favorite_Exercise, exercisetype, Exercise_Type_id, Distance, Exercise_Sets, Reps_Per_Set, Lifting_Weight, BodyWeight};
+    const res = await mysql.query(sql, [params, id, Owner_id]);
     return get(res.insertId);
 }
 //const params = { Type, Value, IsPrimary, CanSpam, User_id };
 // return await mysql.query(sql, [params, id]);
 
-async function remove(id){
-    const sql = `DELETE FROM Exercises WHERE id = ?`;
-    return await mysql.query(sql, [id]);
+async function remove(id, Owner_id){
+    const sql = `DELETE FROM Exercises WHERE id = ? AND User_id = ? `;
+    return await mysql.query(sql, [id, Owner_id]);
 }
 
 async function Set_User_Reps(id, Reps_Per_Set){
