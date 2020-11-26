@@ -11,7 +11,10 @@ const Types = { ADMIN:5, USER:6 };
 
 async function getAll(){
     console.log("Called Get All")
-    return await mysql.query(`SELECT * FROM Users`);
+    const sql = `SELECT * FROM Users`;
+    const rows = await mysql.query(sql);
+    console.log(rows[0].id);
+    return rows;
 }
 
 async function getUserID(UserName, FirstName, LastName, DOB, Password){

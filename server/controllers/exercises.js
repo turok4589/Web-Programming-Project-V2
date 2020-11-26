@@ -5,12 +5,14 @@ const comments = require('../models/comments');
 const router = express.Router();
 router
     .get('/', (req, res, next) => {
-        exercises.getAll().then(x=> res.send( x) )
-        .catch(next);
+        exercises.getAll().then(newExercise => {
+            res.send(newExercise);
+        }).catch(next)
     })
-    .get('/getUserTable', (req, res, next) => {
-        exercises.getAllForUser(req.body.User_id).then(x=> res.send(x))
-        .catch(next);
+    .post('/UserTable', (req, res, next) => {
+        exercises.getAllForUser(req.body.User_id).then(newExercise => {
+            res.send(newExercise);
+        }).catch(next)
     })
     //get a specific table
     .get('/:id', (req, res, next) => {
@@ -60,8 +62,9 @@ router
             res.send( newExercise );
         }).catch(next)
     })
-    .put('/updatexerciseforuser/:id', (req, res, next) => {
-        exercises.update( req.params.id,
+    .post('/updatexercise', (req, res, next) => {
+        exercises.update( 
+            req.body.id,
             req.body.Time_Spent,  
             //calories burned should be calculated here but don't know how to yet
             req.body.Calories_Burned,
@@ -117,8 +120,8 @@ router
         
     })
 
-    .delete('/deleteforuser/:id', (req, res, next) => {
-        exercises.remove(req.params.id).then(msg => {
+    .post('/delete', (req, res, next) => {
+        exercises.remove(req.body.id, req.body.User_id).then(msg => {
             res.send( msg );
         }).catch(next)
     })
