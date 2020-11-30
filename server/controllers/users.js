@@ -8,7 +8,12 @@ const users = require('../models/users');
 const router = express.Router();
 router
     .get('/', (req, res, next) => {
-        users.getAll().then(x=> res.send( x) )
+        //users.getAll().then(x=> res.send( x) )
+        users.getAll().then(x=> res.send( x.map(user=> ({ ...user, Password: undefined}) ) ) )
+        .catch(next);
+    })
+    .get('/usertableforadmin', (req, res, next) => {
+        users.getAllUsersForAdmin().then(x=> res.send( x) )
         //users.getAll().then(x=> res.send( x.map(user=> ({ ...user, Password: undefined}) ) ) )
         .catch(next);
     })
@@ -75,8 +80,8 @@ router
             res.send( newUser );
         }).catch(next)
     })
-    .delete('/:id', (req, res, next) => {
-        users.remove(req.params.id).then(msg => {
+    .post('/delete', (req, res, next) => {
+        users.remove(req.body.id).then(msg => {
             res.send( msg );
         }).catch(next)
     })

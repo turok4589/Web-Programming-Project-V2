@@ -8,6 +8,8 @@ const users = require('./controllers/users');
 const exercises = require('./controllers/exercises');
 const comments = require('./controllers/comments');
 const exercisetypes = require('./controllers/exercisetypes');
+const friendlist = require('./controllers/Friendlist');
+const reactions = require('./controllers/reactions');
 
 
 const app = express()
@@ -43,6 +45,8 @@ app.use('/users', users);
 app.use('/comments', comments);
 app.use('/exercises', exercises);
 app.use('/exercisetypes', exercisetypes);
+app.use('/friendlist', friendlist);
+app.use('/reactions', reactions);
 
 app.get('*', (req, res, next) => {
     const filename = path.join(__dirname, '/../docs/index.html');

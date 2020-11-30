@@ -62,14 +62,22 @@ export default {
     methods: {
             async Login(){
             const rows = await login(this.email, this.password)
+            if(!rows)
+              {
+                  session.addNotification('You have entered the wrong email or password')
+              }
+            else
+             {
                 session.user = { //user is an object
                     name: rows[0].Firstname + ' ' + rows[0].Lastname,
-                    handle: 'Newpaltz',
+                    handle: rows[0].Value,
                 }
                 session.user_id = rows[0].User_id
+                session.usertype = rows[0].User_Type
                 session.username = rows[0].Username
                 session.addNotification('Yay! You logged in', 'success')
                 this.$router.push('FitnessTracker')
+             }
            },
 }
 }

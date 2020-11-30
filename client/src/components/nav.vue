@@ -19,6 +19,7 @@
         <router-link to="/"  class="navbar-item" >Home</router-link>
         <router-link to="/about"  class="navbar-item" >About</router-link>
         <router-link to="/fitnesstracker"  class="navbar-item" >Fitness Tracker</router-link>
+        <router-link to="/fitnessfeed"  class="navbar-item" >Fitness Feed</router-link>
 
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
@@ -32,15 +33,35 @@
           <a class="navbar-item">
             <router-link to="/fitnesstracker"  class="navbar-item" >Fitness Tracker</router-link>
           </a>
+          <a class="navbar-item">
+            <router-link to="/fitnessfeed"  class="navbar-item" >Fitness Feed</router-link>
+          </a>
         </div>
       </div>
         <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link"> Admin </a>
+          <a class="navbar-link"> Friends </a>
 
           <div class="navbar-dropdown">
-            <router-link to="/users"  class="navbar-item" >Users</router-link>
+            <a class = "navbar-item">
+              <router-link to="/users"  class="navbar-item" >View and look for users you want to add</router-link>
+            </a>
+            <a class = "navbar-item">
+                <router-link to="/friendlist"  class="navbar-item"><strong>Look at friendslist</strong></router-link>
+            </a>
           </div>
         </div>
+         <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              Admin
+            </a>
+
+            <div class="navbar-dropdown">
+              <a class="navbar-item">
+                <router-link to="/adminusers"  class="navbar-item" >Users</router-link>
+              </a>
+            </div>
+       </div>
+    </div>
     </div>
     <div class="navbar-end">
       <div class="navbar-item">
@@ -57,10 +78,13 @@
 <script>
 import LoginBadge from "@/components/LoginBadge";
 import Signout from "@/components/signout";
+import session from "@/models/session";
 
 export default {
    data: () => ({
-       isActive: false
+       isActive: false,
+       session,
+       isAdmin: session.usertype
    }), //parantheses tell javascript that the squigglys are the return value
    methods: {
 

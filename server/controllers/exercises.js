@@ -1,6 +1,7 @@
 const express = require('express');
 const exercises = require('../models/Exercises');
 const comments = require('../models/comments');
+const reactions = require('../models/reactions');
 
 const router = express.Router();
 router
@@ -11,6 +12,11 @@ router
     })
     .post('/UserTable', (req, res, next) => {
         exercises.getAllForUser(req.body.User_id).then(newExercise => {
+            res.send(newExercise);
+        }).catch(next)
+    })
+    .post('/byUser', (req, res, next) => {
+        exercises.getByUser(req.body.User_id).then(newExercise => {
             res.send(newExercise);
         }).catch(next)
     })

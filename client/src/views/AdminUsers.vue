@@ -1,32 +1,28 @@
 <template>
   <div class="page">
-      <h2 class="title is-2">Users Page</h2>
+      <!-- Hi professor if you want to test this page login in with the email turok4589@aol.com !-->
+      <h2 class="title is-2">Admin view of Users Page</h2>
         <div class = "card">
         <div class = columns>
            <div class = "column is-two-thirds">
                       <div class="control">
-                        <a class="button" @click.prevent="releasefriendforms">
-                             See someone you want to add to your friends list?
+                        <a class="button" @click.prevent="releasedeleteforms">
+                             Want to delete a user?
                         </a>
                       </div>
-                      <div class = "field" v-if="addfriendid == 1">
+                      <div class = "field" v-if="deleteid == 1">
                         <h2><strong>Add a friend with the following inputs!</strong></h2>
                         <label class="label"> <strong>Enter the id of the user you want to add:</strong></label>
                         <div class="control">
-                          <input class="input" type="Number" placeholder="User ID" v-model="friendid">
+                          <input class="input" type="Number" placeholder="User ID" v-model="userid">
                         </div>
-                        <div class="control" v-if="addfriendid == 1">
+                        <div class="control" v-if="deleteid == 1">
                          <label class="label"> <strong>After you hit the add friend button hit the view friends button to look at your list of friends:</strong></label>
-                          <a class="button" @click.prevent="addnewfriend">
-                               Add a friend!
+                          <a class="button" @click.prevent="deleteuser">
+                               Delete User
                           </a>
                         </div>
                       </div>
-              </div>
-              <div class = "column is-one-third">
-                  <div class="control">
-                      <router-link to="/friendlist"  class="button is-link is-danger"><strong>Look at friendslist</strong></router-link>
-                  </div>
               </div>
         </div>
     </div>
@@ -38,6 +34,7 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                  <th>DOB</th>
+                <th>Password</th>
                 <th>User Type</th>
             </tr></thead>
             <tbody>
@@ -50,6 +47,7 @@
                     <td>{{x.Firstname}}</td>
                     <td>{{x.Lastname}}</td>
                     <td> {{x.DOB}}</td>
+                    <td>{{x.Password}}</td>
                     <td>{{x.User_Type}}</td>
                 </tr>
             </tbody>
@@ -60,34 +58,32 @@
 
 <script>
 
-import { getList, addfriend } from "@/models/users";
+import { getListAdmin, deleteuserfromlist } from "@/models/users";
 import session from "@/models/session";
 
 export default {
     data(){
         return {
             list: [],
-            addfriendid: 0,
-            friendid: null,
+            deleteid: 0,
+            userid: null,
         }
     },
     async created(){
-        this.list = await getList(); 
+        this.list = await getListAdmin(); 
     },
     components: {
         
     },
     methods: {
-        releasefriendforms()
+        releasedeleteforms()
         {
-            this.addfriendid = 1;
+            this.deleteid = 1;
         },
-        async addnewfriend()
+        async deleteuser()
         {
-           const user_id = session.user_id;
-           console.log(this.friendid);
-           console.log(user_id);
-           const response = await addfriend(this.friendid, user_id);
+           const response = await deleteuserfromlist(this.userid);
+           this.list = await getListAdmin(); 
         }
     }
 }

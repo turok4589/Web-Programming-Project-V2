@@ -4,6 +4,8 @@
 const e = require('express');
 const getexercisetype = require('./exercisetypes');
 const mysql = require('./mysql');
+const cm = require('./ContactMethods');
+const comments = require('./comments');
 //const Types = {RUNNING: 'Running', BENCH_PRESS: 'Bench Press', WALKING: 'Walking', BICYCLE_RIDING: 'Bicycle Riding', SWIMMING: 'Swimming'}; //not going to be used anymore. I think
 
 async function getAll(){
@@ -14,6 +16,28 @@ async function getAll(){
     //return await mysql.query(`SELECT * FROM Exercises`);
     //const sql = `SELECT E.*, FirstName, LastName FROM Exercises E Join Users U ON E.User_id = U.id`
     return rows;
+}
+
+async function getByUser(user_id)
+{
+    console.log("Called Get All Users for Feed")
+    console.log(user_id)
+    const sql = `
+        SELECT 
+            E.*, FirstName, LastName, F.*, 
+            (SELECT Value FROM ContactMethods Where User_id = U.id AND Type='${cm.Types.EMAIL}' AND IsPrimary = 1) as PrimaryEmail,
+            (SELECT COUNT(*) FROM Reactions WHERE Exercise_id = E.id) as Reactions
+        FROM Users U Join Friendlist F ON U.id = F.Friends_id OR U.id = F.Owner_id Join Exercises E ON E.User_id = U.id
+        WHERE E.User_id = ? OR E.User_id = Friends_id`
+        console.log(sql);
+
+        const posts = await mysql.query(sql, [user_id, user_id]);
+
+        for (const p of posts) {
+            p.Comments = await comments.getForExercise(p.id); 
+        }
+
+    return posts;
 }
 
 async function getAllForUser(id){
@@ -97,4 +121,4 @@ async function Set_User_Sets(id, Distance){
 
 const search = async q => await mysql.query(`SELECT id, Value FROM Exercises WHERE Value LIKE ?; `, [`%${q}%`]);
 
-module.exports = { getAll, get, add, update, remove, search, getExerciseUserId, Set_User_Reps, Set_User_Distance, Set_User_Sets, Set_User_Weight, getAllForUser }
+module.exports = { getAll, get, add, update, remove, search, getExerciseUserId, Set_User_Reps, Set_User_Distance, Set_User_Sets, Set_User_Weight, getAllForUser, getByUser }

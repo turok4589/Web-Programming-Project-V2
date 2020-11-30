@@ -18,6 +18,10 @@ async function getcomment(id){
     if(!rows.length) throw { status: 404, message: "Sorry, there is no such comment" };
     return rows[0];
 }
+async function getForExercise(post_id){
+    const sql = `SELECT P.*, FirstName, LastName FROM Comments P Join Users U ON P.Owner_id = U.id WHERE P.Exercise_id = ?`
+    return await mysql.query(sql, [post_id]);
+}
 
 async function getcommentidforexercise(exercise_id)
 {
@@ -50,4 +54,4 @@ async function remove(id){
 
 const search = async q => await mysql.query(`SELECT id, Text, Exercise_id FROM Comments WHERE Text LIKE ? ; `, [`%${q}%`]);
 
-module.exports = { getAll, getcomment, getcommentidforexercise,getcommentidforowner, add, update, remove, search}
+module.exports = { getAll, getcomment, getcommentidforexercise,getcommentidforowner, add, update, remove, search, getForExercise}

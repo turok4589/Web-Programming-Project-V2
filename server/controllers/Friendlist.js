@@ -10,22 +10,26 @@ router
         users.getUserFriends(id).then(x=> res.send( x ) )
         .catch(next);
     })
-    post('/add_Friend', (req, res) => {
+    .post('/friendslist', (req, res, next) => {
+        users.getFriendlist(req.body.Owner_id).then(newUser => {
+            res.send(newUser);
+        }).catch(next)
+    })
+    .post('/add_Friend', (req, res, next) => {
         users.Add_A_New_Friend(
-            req.body.Friends_URL_Page,
+            req.body.Friends_id,
             req.body.Owner_id, 
-            req.body.Friends_id
             ).then(newUser => {
             res.send( newUser );
         }).catch(next)
             
-    });
-    post('/delete_Friend', (req, res) => {
+    })
+    .post('/delete_Friend', (req, res, next) => {
         users.RemoveFriend(
             req.body.Owner_id, 
-            req.body.Friends_id).then(msg => {
-            res.send( msg );
-        }).catch(next)
+            req.body.Friends_id).then(newUser => {
+                res.send( newUser );
+            }).catch(next)
     });
 
 module.exports = router;

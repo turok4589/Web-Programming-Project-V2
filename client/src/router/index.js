@@ -3,30 +3,43 @@ import VueRouter from 'vue-router'
 import session from '../models/session'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
-import Users from '../views/Users.vue'
 import SignUpPage from '../views/SignUpPage.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', name: 'Home', component: Home},
-  { path: '/login', name: 'Login', component: Login},
-  { path: '/users', name: 'Users', component: Users },
-  { path: '/signuppage', name: 'SignUpPage', component: SignUpPage},
-  { 
-    path: '/fitnesstracker', 
-    name: 'FitnessTracker', 
-    component: () => import(/* webpackChunkName: "FitnessTracker" */ '../views/FitnessTracker.vue'),
-    beforeEnter: checkSessionUser,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
+      { path: '/', name: 'Home', component: Home},
+      { path: '/login', name: 'Login', component: Login},
+      { path: '/users', name: 'Users', 
+        component: () => import(/* webpackChunkName: "Users" */ '../views/Users.vue'),
+        beforeEnter: checkSessionUser
+      },
+      { path: '/signuppage', name: 'SignUpPage', component: SignUpPage},
+      { path: '/friendlist', name: 'Friendlist', 
+        component: () => import(/* webpackChunkName: "Friendlist" */ '../views/Friendlist.vue'),
+        beforeEnter: checkSessionUser},
+      { path: '/fitnessfeed', 
+        name: 'Fitnessfeed', 
+        component: () => import(/* webpackChunkName: "Fitnessfeed" */ '../views/Fitnessfeed.vue'),
+        beforeEnter: checkSessionUser},
+      { path: '/adminusers', 
+        name: 'AdminUsers', 
+        component: () => import(/* webpackChunkName: "AdminUsers" */ '../views/AdminUsers.vue'),
+        beforeEnter: checkSessionUserType},
+      { 
+        path: '/fitnesstracker', 
+        name: 'FitnessTracker', 
+        component: () => import(/* webpackChunkName: "FitnessTracker" */ '../views/FitnessTracker.vue'),
+        beforeEnter: checkSessionUser,
+      },
+      {
+        path: '/about',
+        name: 'About',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+      },
 ]
 
 const router = new VueRouter({
@@ -42,5 +55,13 @@ function checkSessionUser (to, from, next) {
     next();
   }else{
     next('Login');
+  }
+}
+
+function checkSessionUserType (to, from, next) {
+  if(session.usertype == 5){
+    next();
+  }else{
+    next('Users');
   }
 }
