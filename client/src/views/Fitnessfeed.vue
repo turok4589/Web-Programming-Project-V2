@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-      <h2 class="title is-2"><br>Feed Page</h2>
+      <h2 class="title is-2"><br>Feed Page(Ran out of time to make comments and reactions dynamically change with the page. It works but you'll have to refresh the page to see the changes.)</h2>
 
         <div class="columns">
             <div class="column is-one-half">

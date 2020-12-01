@@ -24,14 +24,14 @@ async function getByUser(user_id)
     console.log(user_id)
     const sql = `
         SELECT 
-            E.*, FirstName, LastName, F.*, 
+            F.*, FirstName, LastName, E.*, 
             (SELECT Value FROM ContactMethods Where User_id = U.id AND Type='${cm.Types.EMAIL}' AND IsPrimary = 1) as PrimaryEmail,
             (SELECT COUNT(*) FROM Reactions WHERE Exercise_id = E.id) as Reactions
-        FROM Users U Join Friendlist F ON U.id = F.Friends_id OR U.id = F.Owner_id Join Exercises E ON E.User_id = U.id
+        FROM Users U Join Friendlist F ON F.Owner_id = ? OR (U.id = F.Friends_id AND F.Owner_id = ?) Join Exercises E ON E.User_id = U.id
         WHERE E.User_id = ? OR E.User_id = Friends_id`
         console.log(sql);
 
-        const posts = await mysql.query(sql, [user_id, user_id]);
+        const posts = await mysql.query(sql, [user_id, user_id, user_id]);
 
         for (const p of posts) {
             p.Comments = await comments.getForExercise(p.id); 

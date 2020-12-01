@@ -91,16 +91,17 @@ export default {
     },
     methods: {
       react(){
+      const userid = session.user_id
       const that = this;
-        react(this.post.id)
+        react(this.post.id, userid)
         .then(x=> that.post.Reactions += 1)
         .catch(err=> console.error(err))
       },
       async comment(){
-        const userid = session.userid
+        const userid = session.user_id
         const response = await comment(this.post.id, userid, this.commentText);
         this.post.Comments.push(response);
-
+        
       }
     }
 }
