@@ -14,5 +14,9 @@ router
         exercisetypes.getexercise(id).then(x=> res.send( x ) )
         .catch(next);
     })
+    .get('/getexercisenames', (req, res, next) => {
+        exercisetypes.GetAllExerciseTypeNames().then(x=> res.send( x) )
+        .catch(next);
+    })
 
 module.exports = router;

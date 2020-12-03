@@ -12,4 +12,10 @@ async function getexercise(exercise_id)
     return rows[0].Exercise_Types_Name
 }
 
-module.exports = { getexercise, getAll }
+async function GetAllExerciseTypeNames()
+{
+    console.log("Getting All Exercise Type Names")
+    return await mysql.query(`Select * FROM Exercise_Types`);
+}
+
+module.exports = { getexercise, getAll, GetAllExerciseTypeNames }
